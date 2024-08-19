@@ -1,7 +1,8 @@
 import express, { Application } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
-import { setupAuthRoutes } from './routes/AuthRoutes';
-import { setupProfileRoutes } from './routes/ProfileRoutes';
+import { setupAuthRoutes } from "./routes/AuthRoutes";
+import { setupProfileRoutes } from "./routes/ProfileRoutes";
 import connectDB from "./db/db";
 import { setupSwagger } from "./swagger";
 
@@ -15,6 +16,8 @@ const startServer = async () => {
 
   setupSwagger(app);
 
+  app.use(cors());
+
   app.use(express.json());
   setupAuthRoutes(app);
   setupProfileRoutes(app);
@@ -22,11 +25,9 @@ const startServer = async () => {
   app.listen(port, () => {
     console.log(`Server is Fire at http://localhost:${port}`);
   });
-}
+};
 
-startServer().catch(error => {
-  console.error('Failed to start the server', error);
+startServer().catch((error) => {
+  console.error("Failed to start the server", error);
   process.exit(1);
 });
-
-
